@@ -37,6 +37,7 @@ MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
 spotify_cred.py
+*.log
 
 # Unit test / coverage reports
 htmlcov/
