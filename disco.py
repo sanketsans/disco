@@ -4,9 +4,8 @@ import argparse
 
 from requests.api import head
 from radio import get_songs
-from spotify_cred import PAYLOAD, DC_CLIENT_ID, DC_SECRET_KEY
-
-import base64
+from spotify_cred import DC_CHANNEL_ID, DC_GUILD_ID, PAYLOAD, DC_CLIENT_ID, DC_SECRET_KEY
+from selenium import webdriver
 
 API_ENDPOINT = 'https://discord.com/api/v8'
 
@@ -36,12 +35,16 @@ if __name__ == '__main__':
 
     logger.info('Authentication done')
 
-    link = get_songs(args, logger)
+    # link = get_songs(args, logger)
 
-    payload = {"content": '.play ' + link}
+    payload = {"content": '.play ' + 'hello'}
     disc = 'https://discord.com/api/v8/channels/904505626409959507/messages/'
     header = {'authorization': 'S8w2zCekk1CM1cpU9nFKIFyLhFPSlU0I1CgaRCxaMu4JQbsLKhqG8ZDVUJxqgtKQrQNk'}
     response = requests.post(PAYLOAD, json=payload)
+
+    browser = webdriver.Safari()
+
+    browser.get('https://discord.com/channels/' + DC_GUILD_ID + '/' + DC_CHANNEL_ID)
 
 
     print(response.content)
