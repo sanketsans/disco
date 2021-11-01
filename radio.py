@@ -1,3 +1,4 @@
+import warnings
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
 import argparse
@@ -19,6 +20,8 @@ def get_songs(args, logger):
         link = 'https://open.spotify.com/album/' + album_urn.split(":")[-1]
     elif artist_uri is not None:
         link = 'https://open.spotify.com/artist/' + artist_uri.split(":")[-1]
+    else:
+        warnings.warn('type -h for help')
 
     return link
 
@@ -28,7 +31,7 @@ if __name__ == '__main__':
     parser.add_argument("--artist", default=None, help="select artist")
     parser.add_argument("--album", default=None, help="select album")
     parser.add_argument("--song", default=None, help="select song")
-    parser.add_argument("--clone", type=int, default=1, help="no. of copies album")
+    # parser.add_argument("--clone", type=int, default=1, help="no. of copies album")
     args = parser.parse_args()
 
     logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s', level=logging.INFO)

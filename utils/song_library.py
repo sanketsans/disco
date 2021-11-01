@@ -1,3 +1,4 @@
+from logging import warn
 import warnings
 
 def get_artist(args, sp, logger):
@@ -16,6 +17,7 @@ def get_artist(args, sp, logger):
             items = results['tracks']['items']
             artist_uri = items[0]['artists'][0]['uri']
             logger.info('Related Artist Not found : ' + items[0]['artists'][0]['name'])
+    
 
     return artist_uri
 
@@ -37,7 +39,7 @@ def get_albums(args, sp, logger, artist_uri=None):
                     logger.info('Matching Album found : ' + str(album['name']))
                     break
 
-    if artist_uri is None or album_uri is None:
+    if (artist_uri is None or album_uri is None) and album_name is not None:
         results = sp.search(q=album_name, limit=5)
         items = results['tracks']['items']
         album_uri = items[0]['album']['uri']
