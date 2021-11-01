@@ -3,14 +3,15 @@ from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
 import argparse
 from pprint import pprint
 import logging
-from utils.song_library import get_songs_uri
+from utils.song_library import get_radio_station
 from spotify_cred import SP_CLIENT_ID, SP_SECRET_KEY
+import sys
 
 def get_songs(args, logger):
     sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=SP_CLIENT_ID,
                                                             client_secret=SP_SECRET_KEY))
 
-    artist_uri, album_urn, song_urn = get_songs_uri(args, sp, logger)
+    artist_uri, album_urn, song_urn = get_radio_station(args, sp, logger)
     link = None
     if len(song_urn) > 0:
         link = 'https://open.spotify.com/track/' + song_urn[0].split(":")[-1]
@@ -37,7 +38,6 @@ if __name__ == '__main__':
     logger.info('Authentication done')
 
     get_songs(args, logger)
-
     
 
 
