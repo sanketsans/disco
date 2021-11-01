@@ -1,9 +1,26 @@
 import requests
 import logging
 import argparse
-from discord import Webhook, RequestsWebhookAdapter
+
+from requests.api import head
 from radio import get_songs
-from spotify_cred import PAYLOAD
+from spotify_cred import PAYLOAD, DC_CLIENT_ID, DC_SECRET_KEY
+
+import base64
+
+API_ENDPOINT = 'https://discord.com/api/v8'
+
+def get_token():
+  data = {
+    'grant_type': 'client_credentials',
+    'scope': 'identify connections'
+  }
+  headers = {
+    'Content-Type': 'application/x-www-form-urlencoded'
+  }
+  r = requests.post('%s/oauth2/token' % API_ENDPOINT, data=data, headers=headers, auth=(DC_CLIENT_ID, DC_SECRET_KEY))
+  r.raise_for_status()
+  return r.json()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -19,6 +36,12 @@ if __name__ == '__main__':
 
     logger.info('Authentication done')
 
-    webhook = Webhook.from_url(PAYLOAD, adapter=RequestsWebhookAdapter())
     link = get_songs(args, logger)
-    webhook.send(".play " + link)
+
+    payload = {"content": '.play ' + link}
+    disc = 'https://discord.com/api/v8/channels/904505626409959507/messages/'
+    header = {'authorization': 'S8w2zCekk1CM1cpU9nFKIFyLhFPSlU0I1CgaRCxaMu4JQbsLKhqG8ZDVUJxqgtKQrQNk'}
+    response = requests.post(disc, json=payload, headers=header)
+
+
+    print(response.content)

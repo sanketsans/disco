@@ -4,11 +4,11 @@ import argparse
 from pprint import pprint
 import logging
 from utils.get_songs import get_songs_uri
-from spotify_cred import CLIENT_ID, SECRET_KEY
+from spotify_cred import SP_CLIENT_ID, SP_SECRET_KEY
 
 def get_songs(args, logger):
-    sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=CLIENT_ID,
-                                                            client_secret=SECRET_KEY))
+    sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=SP_CLIENT_ID,
+                                                            client_secret=SP_SECRET_KEY))
 
     artist_uri, album_urn, song_urn = get_songs_uri(args, sp, logger)
     link = None
