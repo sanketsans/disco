@@ -3,7 +3,7 @@ from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
 import argparse
 from pprint import pprint
 import logging
-from utils.get_songs import get_songs_uri
+from utils.song_library import get_songs_uri
 from spotify_cred import SP_CLIENT_ID, SP_SECRET_KEY
 
 def get_songs(args, logger):

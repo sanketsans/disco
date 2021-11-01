@@ -27,7 +27,7 @@ if __name__ == '__main__':
     parser.add_argument("--artist", default=None, help="select artist")
     parser.add_argument("--album", default=None, help="select album")
     parser.add_argument("--song", default=None, help="select song")
-    parser.add_argument("--clone", type=int, default=1, help="no. of copies album")
+    parser.add_argument("--clone", type=int, default=1, help="no. of similar album(s)")
     args = parser.parse_args()
 
     logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -41,7 +41,7 @@ if __name__ == '__main__':
     payload = {"content": '.play ' + link}
     disc = 'https://discord.com/api/v8/channels/904505626409959507/messages/'
     header = {'authorization': 'S8w2zCekk1CM1cpU9nFKIFyLhFPSlU0I1CgaRCxaMu4JQbsLKhqG8ZDVUJxqgtKQrQNk'}
-    response = requests.post(disc, json=payload, headers=header)
+    response = requests.post(PAYLOAD, json=payload)
 
 
     print(response.content)
