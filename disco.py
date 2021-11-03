@@ -1,11 +1,9 @@
-import requests
 import logging
 import argparse
-
-from requests.api import head
+import requests
+import os
 from radio import get_songs
-from spotify_cred import DC_CHANNEL_ID, DC_GUILD_ID, PAYLOAD, DC_CLIENT_ID, DC_SECRET_KEY
-from selenium import webdriver
+from spotify_cred import DC_CHANNEL_ID, DC_GUILD_ID, PAYLOAD, DC_CLIENT_ID, DC_SECRET_KEY, TOKEN
 
 API_ENDPOINT = 'https://discord.com/api/v8'
 
@@ -27,6 +25,7 @@ if __name__ == '__main__':
     parser.add_argument("--album", default=None, help="select album")
     parser.add_argument("--song", default=None, help="select song")
     parser.add_argument("--clone", type=int, default=1, help="no. of similar album(s)")
+    parser.add_argument("--os", default="linux", help="what os using")
     args = parser.parse_args()
 
     logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -35,16 +34,9 @@ if __name__ == '__main__':
 
     logger.info('Authentication done')
 
-    # link = get_songs(args, logger)
-
-    payload = {"content": '.play ' + 'hello'}
-    disc = 'https://discord.com/api/v8/channels/904505626409959507/messages/'
-    header = {'authorization': 'S8w2zCekk1CM1cpU9nFKIFyLhFPSlU0I1CgaRCxaMu4JQbsLKhqG8ZDVUJxqgtKQrQNk'}
-    response = requests.post(PAYLOAD, json=payload)
-
-    browser = webdriver.Safari()
-
-    browser.get('https://discord.com/channels/' + DC_GUILD_ID + '/' + DC_CHANNEL_ID)
-
-
-    print(response.content)
+    link = get_songs(args, logger)
+    if args.os == 'mac':
+      _ = os.system('echo ' + link + ' | pbcopy')
+    elif args.os == 'linux':
+      _ = os.system('echo ' + link + ' | xclip -sel clip')
+    
